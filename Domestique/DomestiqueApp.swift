@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct DomestiqueApp: App {
+    @ObservedObject private var data = SessionData()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                SessionsView(sessions: $data.sessions, saveAction: {
+                    data.save()
+                })
+            }
+            .onAppear {
+                data.load()
+            }
         }
     }
 }
